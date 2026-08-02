@@ -1,0 +1,115 @@
+@import "tailwindcss";
+
+@theme {
+  /* ── Brand palette — soil science, not stock AI palette ── */
+  --color-ink: #22261c;
+  --color-loam: #3b2e22;
+  --color-loam-light: #55432f;
+  --color-moss-700: #2e4f27;
+  --color-moss-600: #3f6b34;
+  --color-moss-500: #4f7a3d;
+  --color-moss-300: #8fbb6e;
+  --color-moss-200: #c3dfae;
+  --color-clay-600: #953a22;
+  --color-clay-500: #b5432b;
+  --color-parchment: #efead9;
+  --color-parchment-dim: #e6dfc9;
+  --color-paper: #fffdf7;
+  --color-line: #dcd5c0;
+  --color-muted: #6e6552;
+
+  /* ── pH strata colors (soil-science accurate hues) ── */
+  --color-ph-acidic: #b5432b;
+  --color-ph-modacidic: #c98a33;
+  --color-ph-neutral: #3f6b34;
+  --color-ph-modalkaline: #4c7a93;
+  --color-ph-alkaline: #7a6b8f;
+
+  --font-display: "Fraunces", "Iowan Old Style", serif;
+  --font-body: "DM Sans", "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", "SF Mono", monospace;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-line);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-parchment);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    background-color: var(--color-moss-300);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-moss-500);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Number input spinner cleanup */
+  input[type="number"]::-webkit-inner-spin-button,
+  input[type="number"]::-webkit-outer-spin-button {
+    opacity: 1;
+  }
+}
+
+@layer utilities {
+  /* Faint topographic contour texture used behind the hero */
+  .bg-topo {
+    background-image: repeating-radial-gradient(
+      circle at 22% 30%,
+      transparent 0,
+      transparent 34px,
+      rgba(255, 255, 255, 0.035) 35px,
+      rgba(255, 255, 255, 0.035) 36px
+    );
+  }
+
+  .bg-grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    height: 6px;
+    width: 6px;
+  }
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: var(--color-line);
+    border-radius: 4px;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-rise {
+  animation: rise 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}
