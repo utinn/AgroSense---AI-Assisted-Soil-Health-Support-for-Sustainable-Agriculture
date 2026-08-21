@@ -1,6 +1,3 @@
-// Ported directly from compute_percentages() in Main.py.
-// Still used client-side for the live %Ca/%Mg/%K chips as the user types,
-// ahead of and independent from the actual prediction call.
 export function computePercentages(Ca, Mg, K, Na) {
   const total = Ca + Mg + K + Na;
   if (total > 0) {
