@@ -24,10 +24,6 @@ export default function SinglePrediction() {
   const textureValid = Math.abs(values.SAND + values.CLAY + values.SILT - 100) < 0.01;
 
   const handlePredict = async () => {
-    // Frontend is the gatekeeper: check every field's range before this
-    // ever becomes a network request. The backend still enforces the same
-    // ranges independently (defense in depth — never trust client-only
-    // validation) but in normal use it should never actually need to.
     const invalidFields = getInvalidFields(values, ALL_FIELD_KEYS);
     if (invalidFields.length > 0) {
       setError("Invalid input! Please make sure the input is in range!");
