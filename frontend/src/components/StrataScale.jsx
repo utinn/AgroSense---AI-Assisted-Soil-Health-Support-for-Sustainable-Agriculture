@@ -2,7 +2,6 @@ import { PH_CLASSES } from "../data/constants";
 
 const TOTAL_WEIGHT = PH_CLASSES.reduce((sum, c) => sum + c.weight, 0);
 
-// Left-edge offset (%) and width (%) of each band along the scale.
 const BANDS = (() => {
   let cursor = 0;
   return PH_CLASSES.map((cls) => {
@@ -13,14 +12,6 @@ const BANDS = (() => {
   });
 })();
 
-/**
- * The strata scale reads like a soil-core cross-section: five bands running
- * acidic -> alkaline, each colored to the mineral tone that produces it
- * (iron-oxide red, ochre, loam green, slate blue, chalky caliche violet).
- *
- * mode="legend"  — ambient, always-on reference (used in the hero)
- * mode="result"  — same bands, plus a pin marking the predicted class
- */
 export default function StrataScale({ mode = "legend", activeIndex = null, confidence = null, dense = false }) {
   const active = activeIndex != null ? BANDS[activeIndex] : null;
   const pinLeft = active ? active.left + active.width / 2 : null;
