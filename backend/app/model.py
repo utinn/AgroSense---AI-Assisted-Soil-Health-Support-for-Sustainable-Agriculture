@@ -1,7 +1,3 @@
-"""
-Model loading + the same prediction math as Main.py's predict_single() /
-batch prediction block, just reshaped into functions a FastAPI route can call.
-"""
 import joblib
 import pandas as pd
 
@@ -23,7 +19,7 @@ def load_model() -> None:
     try:
         _model = joblib.load(settings.model_path)
         _load_error = None
-    except Exception as exc:  # noqa: BLE001 - we want to capture *any* load failure
+    except Exception as exc: 
         _model = None
         _load_error = f"{type(exc).__name__}: {exc}"
 
@@ -54,8 +50,6 @@ def build_input_df(
     P: float, SAND: float, CLAY: float, N: float, K: float,
     Ca: float, Mg: float, Na: float, CEC: float, SAR: float, ESP: float,
 ) -> pd.DataFrame:
-    """Ported from build_input_df() in Main.py — computes the derived %
-    columns and assembles a single-row DataFrame in the model's column order."""
     pct_ca, pct_mg, pct_k = compute_percentages(Ca, Mg, K, Na)
     return pd.DataFrame(
         [[P, SAND, CLAY, N, K, Ca, Mg, Na, CEC, SAR, ESP, pct_ca, pct_mg, pct_k]],
@@ -64,16 +58,6 @@ def build_input_df(
 
 
 def predict_dataframe(model, df: pd.DataFrame) -> list[dict]:
-    """Run the model over any number of rows. Ported from the single- and
-    batch-prediction blocks in Main.py, merged into one path so both API
-    routes share the exact same logic.
-
-    IMPORTANT: the model was trained with ESP and %Ca/%Mg/%K stored as
-    decimal fractions (e.g. 0.86 for 86%), but the UI collects/computes
-    them as 0-100 percentages for human readability. This converts them
-    right before prediction — on a *copy*, since the batch route still
-    needs the original 0-100 values afterward to display in its response.
-    """
     df = df.copy()
     for col in ("ESP", "% Ca", "% Mg", "% K"):
         if col in df.columns:
@@ -86,7 +70,7 @@ def predict_dataframe(model, df: pd.DataFrame) -> list[dict]:
     if hasattr(model, "predict_proba"):
         try:
             probas = model.predict_proba(aligned)
-        except Exception:  # noqa: BLE001 - confidence is best-effort
+        except Exception: 
             probas = None
 
     results = []
@@ -98,7 +82,7 @@ def predict_dataframe(model, df: pd.DataFrame) -> list[dict]:
         if probas is not None:
             try:
                 confidence = float(probas[i][class_index]) * 100
-            except Exception:  # noqa: BLE001
+            except Exception:
                 confidence = None
 
         results.append(
