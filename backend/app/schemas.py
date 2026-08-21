@@ -4,9 +4,6 @@ from pydantic import BaseModel, Field, model_validator
 
 
 class SoilSample(BaseModel):
-    """Single-sample request body — mirrors the Streamlit "Single Prediction"
-    form fields exactly, including the same min/max ranges as Main.py."""
-
     SAND: float = Field(..., ge=0, le=100, description="Sand fraction, mass %")
     CLAY: float = Field(..., ge=0, le=100, description="Clay fraction, mass %")
     SILT: float = Field(..., ge=0, le=100, description="Silt fraction, mass %")
