@@ -1,6 +1,3 @@
-// Ported 1:1 from the original Streamlit app (Main.py) so the science and
-// copy stay identical — only the presentation layer changes.
-
 export const PH_CLASSES = [
   {
     key: "acidic",
@@ -49,11 +46,6 @@ export const PH_CLASSES = [
   },
 ];
 
-// Single source of truth for valid input ranges — matches the ranges
-// documented in TOOLTIPS below. Used by NumberField (red border + native
-// min/max), each Card (section-level error banner), and SinglePrediction
-// (blocking the Predict button) — so there's exactly one place to update
-// if a range ever changes, instead of three.
 export const FIELD_RANGES = {
   N: { min: 0, max: 2.1 },
   P: { min: 0, max: 350 },
