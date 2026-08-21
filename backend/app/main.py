@@ -10,11 +10,8 @@ from .routers import health, predict
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Runs once when the server starts — load the .pkl into memory so every
-    # request reuses it instead of re-reading the file from disk.
     load_model()
     yield
-    # (nothing to clean up on shutdown)
 
 
 app = FastAPI(
