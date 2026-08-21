@@ -1,7 +1,6 @@
 @import "tailwindcss";
 
 @theme {
-  /* ── Brand palette — soil science, not stock AI palette ── */
   --color-ink: #22261c;
   --color-loam: #3b2e22;
   --color-loam-light: #55432f;
@@ -18,7 +17,6 @@
   --color-line: #dcd5c0;
   --color-muted: #6e6552;
 
-  /* ── pH strata colors (soil-science accurate hues) ── */
   --color-ph-acidic: #b5432b;
   --color-ph-modacidic: #c98a33;
   --color-ph-neutral: #3f6b34;
@@ -57,7 +55,6 @@
     border-radius: 4px;
   }
 
-  /* Number input spinner cleanup */
   input[type="number"]::-webkit-inner-spin-button,
   input[type="number"]::-webkit-outer-spin-button {
     opacity: 1;
@@ -65,7 +62,6 @@
 }
 
 @layer utilities {
-  /* Faint topographic contour texture used behind the hero */
   .bg-topo {
     background-image: repeating-radial-gradient(
       circle at 22% 30%,
