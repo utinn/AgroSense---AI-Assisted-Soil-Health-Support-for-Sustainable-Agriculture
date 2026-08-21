@@ -1,5 +1,3 @@
-// Talks to the FastAPI backend. Base URL comes from an env var so the same
-// code works against localhost in dev and your deployed Render URL in prod.
 const API_BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 export class ApiError extends Error {
@@ -14,7 +12,6 @@ async function readErrorDetail(response) {
   try {
     const data = await response.json();
     if (typeof data.detail === "string") return data.detail;
-    // FastAPI/Pydantic validation errors arrive as a list of {msg, loc, ...}
     if (Array.isArray(data.detail)) {
       return data.detail
         .map((d) => (d.msg || JSON.stringify(d)).replace(/^Value error,\s*/, ""))
@@ -44,22 +41,18 @@ async function postJson(path, body) {
   return response.json();
 }
 
-/** POST /predict — single sample. `values` keys must match the backend's
- * SoilSample schema exactly: SAND, CLAY, SILT, N, P, Ca, K, Mg, Na, CEC, SAR, ESP. */
 export async function predictSingle(values) {
   const data = await postJson("/predict", values);
   return {
     index: data.class_index,
     label: data.label,
-    confidence: data.confidence, // may be null if the model has no predict_proba
+    confidence: data.confidence,
     percentCa: data.percent_ca,
     percentMg: data.percent_mg,
     percentK: data.percent_k,
   };
 }
 
-/** POST /predict/batch — CSV upload. Returns one prediction per row, in the
- * same order as the uploaded file. */
 export async function predictBatch(file) {
   const formData = new FormData();
   formData.append("file", file);
