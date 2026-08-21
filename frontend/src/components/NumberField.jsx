@@ -11,9 +11,6 @@ export default function NumberField({
   suffix,
 }) {
   const tip = tipKey ? TOOLTIPS[tipKey] : null;
-  // Range now comes from one shared source (FIELD_RANGES) instead of being
-  // passed in as separate min/max props on every single usage — so the
-  // tooltip text and the actual validation can never drift apart again.
   const range = tipKey ? FIELD_RANGES[tipKey] : null;
   const invalid = tipKey ? !isInRange(tipKey, value) : false;
 
