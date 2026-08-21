@@ -46,9 +46,6 @@ export default function BatchPrediction() {
     setRows(null);
     setFileName(file.name);
 
-    // Quick client-side parse — gives an instant column check and supplies
-    // the raw values for the preview table. The actual prediction still
-    // comes from the backend, which re-validates everything server-side.
     const text = await file.text();
     let parsed;
     try {
