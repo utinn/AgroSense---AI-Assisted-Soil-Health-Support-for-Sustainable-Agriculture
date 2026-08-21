@@ -8,12 +8,9 @@ PH_LABELS = {
     4: "Strongly Alkaline",
 }
 
-# Column order the model was trained on. "% Ca", "% Mg", "% K" are derived,
-# not raw user input — see compute_percentages() in model.py.
 REQUIRED_COLS = [
     "P", "SAND", "CLAY", "N", "K", "Ca", "Mg", "Na", "CEC", "SAR", "ESP",
     "% Ca", "% Mg", "% K",
 ]
 
-# Columns expected in an uploaded batch CSV (raw inputs only).
 BATCH_INPUT_COLS = ["P", "SAND", "CLAY", "N", "K", "Ca", "Mg", "Na", "CEC", "SAR", "ESP"]
