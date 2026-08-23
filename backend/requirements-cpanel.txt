@@ -1,0 +1,25 @@
+# Dependencies for the AnyMHost cPanel / Phusion Passenger deployment only.
+#
+# This is a SEPARATE file from requirements.txt (which stays FastAPI/Docker/
+# Render-only) because the cPanel runtime needs a different HTTP framework
+# (Flask, since a2wsgi could not reliably bridge FastAPI through Passenger)
+# and a CPU-only XGBoost build (the GPU-capable "xgboost" package pulls in
+# nvidia-nccl-cu12, which is unusable and unnecessary on shared hosting).
+#
+# fastapi/uvicorn/python-multipart are intentionally omitted: app/wsgi.py
+# only imports app.model / app.schemas / app.constants / app.config, none of
+# which import FastAPI, and Flask/Werkzeug parse multipart uploads natively.
+#
+# Flask/Flask-Cors versions below are current stable pins, not the exact
+# version already proven working on AnyMHost (that wasn't recorded). Before
+# syncing, run `pip freeze | grep -i flask` in the AnyMHost virtualenv and
+# adjust these pins if they differ, to avoid an unnecessary reinstall.
+pydantic==2.13.4
+joblib==1.5.3
+pandas==3.0.3
+numpy==2.5.1
+scikit-learn==1.7.2
+xgboost-cpu==3.3.0
+python-dotenv==1.0.1
+Flask==3.0.3
+Flask-Cors==4.0.1

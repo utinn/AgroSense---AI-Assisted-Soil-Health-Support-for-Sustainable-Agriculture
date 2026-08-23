@@ -101,6 +101,52 @@ Procfile               for Render (next deployment step)
 .env.example
 ```
 
+## 6. AnyMHost / Passenger deployment (cPanel)
+
+FastAPI/Uvicorn (above) is the only implementation used for local dev and any
+future Docker/Render deployment. AnyMHost's cPanel hosting runs on Phusion
+Passenger, which only speaks WSGI — a2wsgi (ASGI-to-WSGI bridging) was tried
+and proved unreliable there (hung mid-response, eventually 500s), so instead
+there's a **separate, thin Flask adapter** used only on that host:
+
+```
+app/wsgi.py          Flask app — same public API contract as FastAPI, reuses
+                       app.model / app.schemas directly, no inference logic
+                       duplicated
+passenger_wsgi.py     Passenger entrypoint; sets BLAS/OpenMP thread limits
+                       before any numerical import, then exposes `application`
+requirements-cpanel.txt   pinned deps for this runtime (Flask + Flask-Cors +
+                       xgboost-cpu instead of xgboost, no fastapi/uvicorn)
+```
+
+**Why a separate requirements file:** `requirements.txt` stays FastAPI-only
+for local/Docker/Render. The AnyMHost virtualenv installs from
+`requirements-cpanel.txt` instead.
+
+**Why the thread env vars matter:** shared hosting can't tolerate OpenBLAS's
+default thread count (`pthread_create failed: Resource temporarily
+unavailable`). `passenger_wsgi.py` sets `OPENBLAS_NUM_THREADS`,
+`OMP_NUM_THREADS`, `MKL_NUM_THREADS`, `NUMEXPR_NUM_THREADS`, and
+`BLIS_NUM_THREADS` to `1` via `os.environ.setdefault(...)` (never overrides
+cPanel's own env vars) before anything numerical is imported. The trained
+model's `StackingClassifier`/`RandomForestClassifier` also ship with
+`n_jobs=-1`; when `AGROSENSE_LIMIT_PARALLELISM=true`, `app/model.py`'s
+`load_model()` clamps this to `1` on the in-memory object only (the `.pkl`
+on disk is never modified) — verified to produce identical predictions.
+This flag is **off by default** so local dev and Docker/Render keep the
+model's original parallelism; `passenger_wsgi.py` sets it to `true` for you
+via `os.environ.setdefault(...)` since only shared hosting needs it.
+
+**Model lifecycle:** `app/wsgi.py` calls `load_model()` once at import time,
+so each Passenger worker process loads the model exactly once, matching
+FastAPI's startup-lifespan behavior. If loading fails, `/health` reports
+`model_loaded: false` with the error, and `/predict`/`/predict/batch` return
+`503` — the app itself stays up.
+
+**CORS in production:** set `CORS_ORIGINS` as a cPanel environment variable
+(same var the FastAPI app reads) to the deployed frontend origin(s), e.g.
+`https://agrosense.my.id`. Never the backend's own domain.
+
 ## Not done yet (next steps)
 
 - Wire the React frontend's `mockPredictSingle`/`mockPredictBatch` to call
