@@ -9,6 +9,7 @@ _load_error: str | None = None
 
 
 class ModelNotLoadedError(RuntimeError):
+    pass
 
 def _limit_parallelism(model) -> None:
     if hasattr(model, "n_jobs"):
