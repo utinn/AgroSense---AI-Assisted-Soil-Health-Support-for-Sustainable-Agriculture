@@ -28,9 +28,6 @@ class Settings:
         "http://localhost:5173,http://127.0.0.1:5173",
     )
 
-    # Off by default so local/Docker FastAPI keeps the model's original
-    # n_jobs=-1 parallelism. AnyMHost's passenger_wsgi.py sets this to "true"
-    # since shared hosting can't tolerate the process pools that implies.
     limit_parallelism: bool = _bool_env("AGROSENSE_LIMIT_PARALLELISM", False)
 
 
