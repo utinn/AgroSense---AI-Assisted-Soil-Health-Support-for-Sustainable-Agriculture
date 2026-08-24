@@ -4,9 +4,7 @@
 
 AI-Assisted Soil Health Support for Sustainable Agriculture.
 
-AgroSense is a web application that classifies soil pH into five agronomic bands from a set of routine soil measurements — texture, nutrients, exchangeable base cations, and soil chemistry metrics — and pairs each prediction with an interpretation of what that pH band implies for nutrient availability and soil management. It works on a single sample or on a whole field uploaded as CSV.
-
-**Website Access :** [Click Here!](https://agrosense.my.id)
+AgroSense is a web application that classifies soil pH into five agronomic bands from a set of routine soil measurements — texture, nutrients, exchangeable base cations, and soil chemistry metrics — and pairs each prediction with an interpretation of what that pH band implies for nutrient availability and soil management. It works on a single sample or on a whole field uploaded as CSV. [Click Here!](https://agrosense.my.id) to access the website!
 
 ---
 
