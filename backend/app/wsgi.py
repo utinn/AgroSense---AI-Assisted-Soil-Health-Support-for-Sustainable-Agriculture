@@ -1,12 +1,3 @@
-"""Flask WSGI adapter for AnyMHost cPanel / Phusion Passenger.
-
-FastAPI (app.main) remains the primary implementation for local dev and
-Docker/Render. This module exposes the same public API contract
-(GET /, GET /health, POST /predict, POST /predict/batch) over WSGI for hosts
-that only support Passenger, by reusing the framework-independent ML and
-validation code in app.model / app.schemas — no inference logic is
-duplicated here.
-"""
 import io
 import json
 import logging
@@ -74,9 +65,6 @@ def predict_single():
     try:
         sample = SoilSample(**body)
     except ValidationError as exc:
-        # exc.errors() can embed raw exception objects in ctx (e.g. from a
-        # model_validator raising ValueError), which json.dumps can't
-        # serialize. exc.json() is pydantic's own JSON-safe rendering.
         return app.response_class(
             json.dumps({"detail": json.loads(exc.json())}), status=422, mimetype="application/json"
         )
