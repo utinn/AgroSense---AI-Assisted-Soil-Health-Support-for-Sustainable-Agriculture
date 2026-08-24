@@ -12,7 +12,6 @@ router = APIRouter(prefix="/predict", tags=["prediction"])
 
 @router.post("", response_model=PredictionResult)
 def predict_single(sample: SoilSample) -> PredictionResult:
-    """Equivalent to the "Single Prediction" button in Main.py."""
     try:
         model = get_model()
     except ModelNotLoadedError as exc:
@@ -72,7 +71,7 @@ async def predict_batch(file: UploadFile = File(...)) -> BatchPredictionResponse
 
     rows_with_nan = df[BATCH_INPUT_COLS].isnull().any(axis=1)
     if rows_with_nan.any():
-        bad_rows = list(rows_with_nan[rows_with_nan].index + 2)  # +2 = header row + 1-index
+        bad_rows = list(rows_with_nan[rows_with_nan].index + 2) 
         raise HTTPException(
             status_code=422,
             detail=f"Missing values detected in rows: {bad_rows}. "
@@ -89,7 +88,7 @@ async def predict_batch(file: UploadFile = File(...)) -> BatchPredictionResponse
 
     try:
         raw_results = predict_dataframe(model, df)
-    except Exception as exc:  # noqa: BLE001
+    except Exception as exc:  
         raise HTTPException(status_code=500, detail=f"Prediction error: {exc}") from exc
 
     results = [
