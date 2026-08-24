@@ -26,34 +26,34 @@ Therefore, AgroSense was developed as an AI-assisted decision support tool for t
 
 ```
 AgroSense/
-├── frontend/                        React + Vite single-page application
+├── frontend/                               React + Vite + Tailwind CSS for Frontend
 │   ├── src/
-│   │   ├── components/              Input cards, result panel, batch upload, pH scale
-│   │   ├── data/constants.js        Field ranges, tooltips, per-class interpretations
-│   │   ├── utils/                   Range/texture validation, base-cation percentages
-│   │   ├── api.js                   Client for /predict and /predict/batch
-│   │   └── App.jsx                  Single/batch mode shell
-│   ├── .env.example                 VITE_API_URL
+│   │   ├── components/                     Input cards, result panel, batch upload, pH scale
+│   │   ├── data/constants.js               Field ranges, tooltips, class interpretations
+│   │   ├── utils/                          Range/texture validation, base-cation percentages
+│   │   ├── api.js                          Client for /predict and /predict/batch
+│   │   └── App.jsx                         Single/batch mode shell
+│   ├── .env.example                        VITE_API_URL
 │   └── package.json
-├── backend/
+├── backend/                                FastAPI + Machine Learning for Backend
 │   ├── app/
-│   │   ├── main.py                  FastAPI (ASGI) application — primary backend
-│   │   ├── wsgi.py                  Flask WSGI adapter exposing the same routes
-│   │   ├── model.py                 Shared ML core: load, feature assembly, predict
-│   │   ├── schemas.py               Pydantic request/response models and validation
-│   │   ├── constants.py             pH labels and feature/column ordering
-│   │   ├── config.py                Environment-driven settings
-│   │   └── routers/                 health.py, predict.py
+│   │   ├── main.py                         FastAPI (ASGI) application — primary backend
+│   │   ├── wsgi.py                         Flask WSGI adapter exposing the same routes
+│   │   ├── model.py                        Shared ML core : load, feature assembly, predict
+│   │   ├── schemas.py                      Pydantic request/response models and validation
+│   │   ├── constants.py                    pH labels and feature/column ordering
+│   │   ├── config.py                       Environment-driven settings
+│   │   └── routers/                        health.py, predict.py
 │   ├── models/
-│   │   └── soil_ph_model.pkl        Trained stacking ensemble (joblib)
-│   ├── passenger_wsgi.py            cPanel/Passenger entrypoint
-│   ├── requirements.txt             Local development / ASGI dependencies
-│   └── requirements-cpanel.txt      Production (Passenger/WSGI) dependencies
+│   │   └── soil_ph_model.pkl               Trained stacking ensemble (XGBoost + Random Forest + Multt-Layered Perceptrons)
+│   ├── passenger_wsgi.py                   cPanel/Passenger entrypoint
+│   ├── requirements.txt                    Local development / ASGI dependencies
+│   └── requirements-cpanel.txt             Production (Passenger/WSGI) dependencies
 ├── Dataset/
-│   ├── Train Set.csv                3,022 soil samples with pH class labels
-│   └── Test Set.csv                 1,007 unlabelled samples
+│   ├── Train Set.csv                       3,022 soil samples with pH class labels
+│   └── Test Set.csv                        1,007 unlabelled samples
 ├── Notebook/
-│   └── Soil pH Predictor Notebook.ipynb    Full ML workflow
+│   └── Soil pH Predictor Notebook.ipynb    Full ML workflow (EDA, Preprocessing, Feature Engineering, Modeling, Evaluation)
 └── README.md
 ```
 
