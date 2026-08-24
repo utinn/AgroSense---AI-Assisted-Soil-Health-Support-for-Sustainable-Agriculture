@@ -63,8 +63,8 @@ AgroSense/
 
 | Feature | Description |
 | --- | --- |
-| **Single-sample prediction** | Twelve soil measurements — texture (sand/silt/clay), nutrients (N, P), base chemicals (Ca, Mg, K, Na), and soil metrics (CEC, SAR, ESP) — classified into one of five pH bands from strongly acidic to strongly alkaline. |
-| **Prediction confidence** | The ensemble's probability for the predicted class, shown numerically and positioned on a five-band pH scale. |
+| **Single-sample prediction** | Twelve soil measurements — texture (sand/silt/clay), nutrients (N, P), base chemicals (Ca, Mg, K, Na), and soil metrics (CEC, SAR, ESP) — classified into one of five pH bands from strongly acidic to strongly alkaline |
+| **AI Prediction** | Ensemble based model for soil pH class prediction along with the confidence percentage, shown numerically and positioned on a five-band pH scale. |
 | **Agronomic interpretation** | Each class carries an explanation of what typically drives it, how it affects nutrient availability, and which amendment approach applies. |
 | **Base-cation saturation** | % Ca, % Mg, % K, and % Na are computed from the entered cations and updated live; the first three are fed to the model as engineered features. |
 | **Batch CSV prediction** | Download a column template, drop in a CSV, and get a per-row class and confidence, a class-distribution summary, a preview table, and a full results CSV export. |
