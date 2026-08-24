@@ -1,4 +1,4 @@
-# AgroSense
+# 🌱 AgroSense
 
 ![React](https://img.shields.io/badge/React-19-06B6D4?logo=react&logoColor=white) ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.12-3776AB?logo=python&logoColor=white) ![Flask](https://img.shields.io/badge/Flask-3.1.3-4CAF50?logo=flask&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.7.2-F7931E?logo=scikitlearn&logoColor=white)
 
@@ -8,17 +8,17 @@ AgroSense is an AI web application that classifies soil pH into five agronomic b
 
 ---
 
-## 🌱 Background
+## ❗ Background
 
-Healthy soil is fundamental to agricultural productivity. Approximately 95% of the world's food is produced in soil, while around 33% of global soils are already degraded (Food and Agriculture Organization of the United Nations [FAO], 2025).
+Healthy soil is a critical aspect to agricultural productivity. Approximately 95% of the world's food is produced in soil, while around 33% of global soils are already degraded (Food and Agriculture Organization of the United Nations [FAO], 2025).
 
 Soil pH is particularly important because it influences nutrient availability, microbial activity, and crop growth. Strongly acidic conditions can increase the availability of aluminium and manganese to potentially toxic levels, while very alkaline soils can reduce the availability of phosphorus and several micronutrients (U.S. Department of Agriculture, Natural Resources Conservation Service [USDA NRCS], 2011).
 
 Soil acidity is also a widespread agricultural constraint. Nearly 40% of global arable land has been estimated to be acidic, with a pH below 6.5 (Makaza et al., 2026). A global meta-analysis synthesizing 832 observations from 142 studies found that amendments applied to acidic soils increased crop yields by approximately 36% on average (Zhang et al., 2023).
 
-Access to actionable soil information can nevertheless remain difficult. In a study of 547 farmers in Central Kenya, only around 1.5% reported conducting soil testing, with laboratory distance and testing costs identified among the major barriers (Kamau et al., 2024). Laboratory analysis can also involve non-immediate turnaround; for example, University of Georgia Extension reports approximately 7–10 business days for routine soil-test results (University of Georgia Cooperative Extension, n.d.).
+Access to actionable soil information can be a challenge. In a study of 547 farmers in Central Kenya, only around 1.5% reported conducting soil testing, with laboratory distance and testing costs identified among the major barriers (Kamau et al., 2024). Laboratory analysis can also involve non-immediate turnaround. For example, University of Georgia Extension reports approximately 7–10 business days for routine soil-test results (University of Georgia Cooperative Extension, n.d.).
 
-AgroSense was developed as an AI-assisted decision-support tool for this gap. Using soil measurements available from soil analysis, AgroSense applies a trained ensemble model to estimate the soil's pH category and presents the prediction together with its confidence and an accessible agronomic interpretation. It is designed to support soil-condition interpretation and prioritisation rather than replace laboratory soil testing.
+Therefore, AgroSense was developed as an AI-assisted decision support tool for this gap. By leveraging soil measurements available from soil analysis, AgroSense applies a trained ensemble model (XGBoost, Random Forest, Multi-Layered Perceptrons) to estimate the soil's pH category and presents the prediction together with its confidence and an accessible agronomic interpretation. With its speed and accuracy, AgroSense is designed to support soil-condition interpretation and prioritisation rather than replace laboratory soil testing.
 
 ---
 
@@ -198,3 +198,14 @@ No secrets are required to run the project locally.
 - Generate per-prediction feature attributions (e.g. SHAP) so the interpretation reflects what actually drove that sample's prediction rather than fixed per-class text.
 - Broaden the training data with additional labelled sources covering more regions and soil types, particularly the underrepresented acidic classes.
 - Add streaming or chunked handling and an explicit row cap for large batch uploads.
+
+---
+
+## 📚 References
+
+Food and Agriculture Organization of the United Nations. (2025, June 17). How healthy soils combat climate change and boost food security. FAO article
+Kamau, P., Ndirangu, I., Richardson, S., Pamme, N., & Gitaka, J. (2024). Gendered farmer perceptions towards soil nutrition and willingness to pay for a cafetière-style filter system for in-situ soil testing: Evidence from Central Kenya. Heliyon, 10(18), e37568. [https://doi.org/10.1016/j.heliyon.2024.e37568](https://doi.org/10.1016/j.heliyon.2024.e37568)
+Makaza, W., Khiari, L., & El Achaby, M. (2026). The meta-analysis study on the effects of the quality of lime materials on the soil physicochemical properties and crop yields in acid soils. Frontiers in Soil Science, 6, Article 1725559. [https://doi.org/10.3389/fsoil.2026.1725559](https://doi.org/10.3389/fsoil.2026.1725559)
+U.S. Department of Agriculture, Natural Resources Conservation Service. (2011). Soil quality indicators: Soil pH. USDA NRCS soil pH technical sheet
+University of Georgia Cooperative Extension. (n.d.). Soil testing. UGA Extension soil testing page
+Zhang, S., Zhu, Q., de Vries, W., Ros, G. H., Chen, X., Muneer, M. A., Zhang, F., & Wu, L. (2023). Effects of soil amendments on soil acidity and crop yields in acidic soils: A world-wide meta-analysis. Journal of Environmental Management, 345, Article 118531. [https://doi.org/10.1016/j.jenvman.2023.118531](https://doi.org/10.1016/j.jenvman.2023.118531)
