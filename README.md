@@ -106,7 +106,7 @@ AgroSense/
 
 ## 🏗️ System Architecture
 
-The React frontend calls a single REST API — `POST /predict`, `POST /predict/batch`, and `GET /health` — at the base URL given by `VITE_API_URL`. Behind that contract sit two serving paths, one for local development and one for production, exposing the same API contract and delegating to the same ML core.
+The React frontend calls a single REST API (`POST /predict`, `POST /predict/batch`, and `GET /health`) at the base URL given by `VITE_API_URL`. Behind that contract sit two serving paths, one for local development and one for production, exposing the same API contract and delegating to the same ML core.
 
 ```mermaid
 flowchart TD
@@ -147,13 +147,13 @@ flowchart TD
 
 ### Backend Flow
 
-Locally, Uvicorn serves the FastAPI application — the primary ASGI implementation — which also exposes generated OpenAPI docs at `/docs`. In production on AnyMHost / cPanel, Phusion Passenger starts the application; because Passenger serves WSGI rather than ASGI, `passenger_wsgi.py` mounts a thin Flask adapter (`app/wsgi.py`) that re-exposes the same routes. The production entrypoint also applies resource constraints required by the shared-hosting environment before loading the application.
+Locally, Uvicorn serves the FastAPI application (the primary ASGI implementation) which also exposes generated OpenAPI docs at `/docs`. In production on AnymHost (cPanel), Phusion Passenger starts the application. Because Passenger serves WSGI rather than ASGI, `passenger_wsgi.py` mounts a thin Flask adapter (`app/wsgi.py`) that re-exposes the same routes. The production entrypoint also applies resource constraints required by the shared-hosting environment before loading the application.
 
 Neither path implements inference of its own. Both call into `backend/app/model.py`, which loads the model artifact once at startup, assembles the feature frame, and returns labels with probabilities — so prediction behaviour stays identical across the two paths.
 
 ### Machine Learning Layer
 
-AgroSense serves a scikit-learn stacking ensemble: a multi-layer perceptron, a random forest, and an XGBoost classifier as base learners, combined by a logistic-regression meta-learner. It predicts one of five soil pH categories, from strongly acidic to strongly alkaline, and returns the class probability as the prediction's confidence.
+AgroSense serves a scikit-learn stacking ensemble (XGBoost, Random Forest, Multi-Layered Perceptrons) as base learners, combined by a Logistic Regression meta-learner. It predicts one of five soil pH categories, from strongly acidic to strongly alkaline, and returns the class probability as the prediction's confidence.
 
 Full preprocessing, feature engineering, experimentation, training, and evaluation are documented in `Notebook/Soil pH Predictor Notebook.ipynb`.
 
