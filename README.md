@@ -10,11 +10,15 @@ AgroSense is an AI web application that classifies soil pH into five agronomic b
 
 ## 🌱 Background
 
-Soil pH governs how much of a soil's nutrient content a crop can actually take up. Below roughly pH 4 aluminium and manganese turn root-toxic and phosphorus locks up with iron and aluminium oxides; above roughly pH 8 phosphorus fixes with calcium and micronutrients such as iron, zinc, and boron become progressively less soluble. Fertiliser applied to a soil sitting outside the workable band is largely wasted, and the corrective amendment — lime, gypsum, elemental sulphur — depends on which direction the soil has drifted and what is driving it.
+## 🌱 Background
 
-In practice, growers and extension workers often already hold a soil analysis report: texture fractions, nitrogen and phosphorus, exchangeable Ca/Mg/K/Na, CEC, SAR, and ESP. What is less often at hand is a quick reading of what those numbers mean together. AgroSense fills that gap: it takes measurements a lab report already provides, predicts the pH band with a trained ensemble model, and returns the prediction alongside its confidence and a plain-language agronomic interpretation.
+Healthy soil is fundamental to agricultural productivity. Around 95% of the world's food is produced in soil, yet approximately one-third of global soils are already degraded. Among the many indicators of soil condition, pH plays a particularly important role because it directly influences nutrient availability, microbial activity, and the toxicity of elements such as aluminium and manganese.
 
-It is intended as decision support that helps prioritise which fields need a full pH test and what amendment is likely to be needed — not as a substitute for laboratory soil testing.
+The impact is not merely theoretical. Around 40% of global arable land is estimated to be acidic, making soil acidity a widespread constraint on crop production. A global meta-analysis covering 832 observations from 142 studies found that amendments applied to acidic soils increased crop yields by approximately 36% on average, with the response becoming greater as initial soil pH declined. These findings highlight how identifying and managing unsuitable soil pH can directly influence agricultural productivity.
+
+Assessing soil condition, however, is not always immediately actionable. Conventional soil analysis requires representative sampling, laboratory measurements, and interpretation of multiple chemical indicators. Laboratory turnaround can also take several days, while measurements such as nutrient levels, exchangeable cations, CEC, SAR, and ESP may be difficult to interpret together without sufficient agronomic knowledge.
+
+AgroSense was developed as an AI-assisted decision-support tool for this gap. Using soil measurements that may already be available from a soil analysis, its trained ensemble model estimates the soil's pH category and presents the result together with prediction confidence and an accessible agronomic interpretation. AgroSense is designed to support faster interpretation and prioritisation of soil conditions — not to replace laboratory soil testing.
 
 ---
 
