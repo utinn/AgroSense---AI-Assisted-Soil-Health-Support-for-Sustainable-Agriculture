@@ -10,13 +10,15 @@ AgroSense is an AI web application that classifies soil pH into five agronomic b
 
 ## 🌱 Background
 
-Healthy soil is fundamental to agricultural productivity. Around 95% of the world's food is produced in soil, yet approximately one-third of global soils are already degraded. Among the many indicators of soil condition, pH plays a particularly important role because it directly influences nutrient availability, microbial activity, and the toxicity of elements such as aluminium and manganese.
+Healthy soil is fundamental to agricultural productivity. Approximately 95% of the world's food is produced in soil, while around 33% of global soils are already degraded (Food and Agriculture Organization of the United Nations [FAO], 2025).
 
-The impact is not merely theoretical. Around 40% of global arable land is estimated to be acidic, making soil acidity a widespread constraint on crop production. A global meta-analysis covering 832 observations from 142 studies found that amendments applied to acidic soils increased crop yields by approximately 36% on average, with the response becoming greater as initial soil pH declined. These findings highlight how identifying and managing unsuitable soil pH can directly influence agricultural productivity.
+Soil pH is particularly important because it influences nutrient availability, microbial activity, and crop growth. Strongly acidic conditions can increase the availability of aluminium and manganese to potentially toxic levels, while very alkaline soils can reduce the availability of phosphorus and several micronutrients (U.S. Department of Agriculture, Natural Resources Conservation Service [USDA NRCS], 2011).
 
-Assessing soil condition, however, is not always immediately actionable. Conventional soil analysis requires representative sampling, laboratory measurements, and interpretation of multiple chemical indicators. Laboratory turnaround can also take several days, while measurements such as nutrient levels, exchangeable cations, CEC, SAR, and ESP may be difficult to interpret together without sufficient agronomic knowledge.
+Soil acidity is also a widespread agricultural constraint. Nearly 40% of global arable land has been estimated to be acidic, with a pH below 6.5 (Makaza et al., 2026). A global meta-analysis synthesizing 832 observations from 142 studies found that amendments applied to acidic soils increased crop yields by approximately 36% on average (Zhang et al., 2023).
 
-AgroSense was developed as an AI-assisted decision-support tool for this gap. Using soil measurements that may already be available from a soil analysis, its trained ensemble model estimates the soil's pH category and presents the result together with prediction confidence and an accessible agronomic interpretation. AgroSense is designed to support faster interpretation and prioritisation of soil conditions — not to replace laboratory soil testing.
+Access to actionable soil information can nevertheless remain difficult. In a study of 547 farmers in Central Kenya, only around 1.5% reported conducting soil testing, with laboratory distance and testing costs identified among the major barriers (Kamau et al., 2024). Laboratory analysis can also involve non-immediate turnaround; for example, University of Georgia Extension reports approximately 7–10 business days for routine soil-test results (University of Georgia Cooperative Extension, n.d.).
+
+AgroSense was developed as an AI-assisted decision-support tool for this gap. Using soil measurements available from soil analysis, AgroSense applies a trained ensemble model to estimate the soil's pH category and presents the prediction together with its confidence and an accessible agronomic interpretation. It is designed to support soil-condition interpretation and prioritisation rather than replace laboratory soil testing.
 
 ---
 
