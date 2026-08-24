@@ -106,29 +106,56 @@ AgroSense/
 
 ## 🏗️ System Architecture
 
-The frontend is a static React build that calls a single REST API — `POST /predict`, `POST /predict/batch`, and `GET /health` — at the base URL given by `VITE_API_URL`. The backend exposes those routes through two interchangeable web layers that both delegate to the same ML core in `backend/app/model.py`, which loads the joblib artifact once at startup, assembles the feature frame, and returns labels with probabilities.
+The React frontend calls a single REST API — `POST /predict`, `POST /predict/batch`, and `GET /health` — at the base URL given by `VITE_API_URL`. Behind that contract sit two serving paths, one for local development and one for production, exposing the same API contract and delegating to the same ML core.
 
 ```mermaid
 flowchart TD
-    A["React + Vite frontend"] -->|"local dev"| B["Uvicorn → FastAPI (app.main)"]
-    A -->|"production · ai.agrosense.my.id"| C["Phusion Passenger (cPanel)"]
-    C --> D["passenger_wsgi.py → Flask adapter (app.wsgi)"]
-    B --> E["Shared ML core (app/model.py)"]
-    D --> E
-    E --> F["soil_ph_model.pkl — stacking ensemble"]
+    U["User / Browser"] --> FE["React + Vite"]
+    FE --> API["REST API"]
+
+    subgraph Local["Local Development"]
+        UV["Uvicorn"] --> FA["FastAPI"]
+    end
+
+    subgraph Prod["Production (ai.agrosense.my.id)"]
+        PP["Phusion Passenger"] --> FL["Flask WSGI Adapter"]
+    end
+
+    API --> UV
+    API --> PP
+
+    FA --> CORE["Shared ML Core"]
+    FL --> CORE
+    CORE --> MODEL["Stacking Ensemble"]
+    MODEL --> RES["Prediction Result"]
+    RES --> FE
+
+    classDef frontend fill:#1e3a5f,stroke:#60a5fa,color:#ffffff;
+    classDef backend fill:#1f5132,stroke:#4ade80,color:#ffffff;
+    classDef infra fill:#4c3564,stroke:#c084fc,color:#ffffff;
+    classDef mlcore fill:#6b451a,stroke:#fb923c,color:#ffffff;
+    classDef model fill:#665c1e,stroke:#facc15,color:#ffffff;
+    classDef result fill:#134e4a,stroke:#2dd4bf,color:#ffffff;
+
+    class U,FE frontend;
+    class API,UV,FA backend;
+    class PP,FL infra;
+    class CORE mlcore;
+    class MODEL model;
+    class RES result;
 ```
 
-FastAPI is the primary backend implementation and the target for local development, where Uvicorn also serves the generated OpenAPI docs at `/docs`. The production host runs Phusion Passenger, which starts WSGI applications rather than ASGI ones. Instead of rewriting the service, `app/wsgi.py` re-exposes the same routes as a thin Flask application reusing the same model core, schemas, and constants, and `passenger_wsgi.py` mounts it as the Passenger entrypoint. The Flask layer adds no prediction logic of its own — it only translates requests and errors between Flask and the shared core.
+### Backend Flow
 
-`passenger_wsgi.py` also pins the BLAS/OpenMP thread counts to one and enables `AGROSENSE_LIMIT_PARALLELISM`, which forces `n_jobs=1` on the ensemble's estimators so the model stays within the process and memory limits of shared hosting. Allowed browser origins are configured through `CORS_ORIGINS` in both layers.
+Locally, Uvicorn serves the FastAPI application — the primary ASGI implementation — which also exposes generated OpenAPI docs at `/docs`. In production on AnyMHost / cPanel, Phusion Passenger starts the application; because Passenger serves WSGI rather than ASGI, `passenger_wsgi.py` mounts a thin Flask adapter (`app/wsgi.py`) that re-exposes the same routes. The production entrypoint also applies resource constraints required by the shared-hosting environment before loading the application.
+
+Neither path implements inference of its own. Both call into `backend/app/model.py`, which loads the model artifact once at startup, assembles the feature frame, and returns labels with probabilities — so prediction behaviour stays identical across the two paths.
 
 ### Machine Learning Layer
 
-The served artifact is a scikit-learn `StackingClassifier` combining three base learners — a standardised multi-layer perceptron (256×128), a random forest (300 trees, depth 10, balanced class weights), and an XGBoost classifier (300 estimators) — under a logistic-regression meta-learner trained with 5-fold stratified cross-validation.
+AgroSense serves a scikit-learn stacking ensemble: a multi-layer perceptron, a random forest, and an XGBoost classifier as base learners, combined by a logistic-regression meta-learner. It predicts one of five soil pH categories, from strongly acidic to strongly alkaline, and returns the class probability as the prediction's confidence.
 
-It takes fourteen features: the eleven measured inputs `P, SAND, CLAY, N, K, Ca, Mg, Na, CEC, SAR, ESP` plus the engineered base-cation saturations `% Ca, % Mg, % K` (silt is collected in the form for the texture check but was dropped during feature selection). Output is one of five ordinal pH classes (strongly acidic → strongly alkaline), with the class probability returned as the confidence score. On the held-out split of the balanced training data, the final tuned ensemble reaches 0.89 accuracy and 0.89 macro F1.
-
-Data exploration, outlier handling, imputation, feature engineering and selection, the model experiments, and the full evaluation are documented in `Notebook/Soil pH Predictor Notebook.ipynb`.
+Full preprocessing, feature engineering, experimentation, training, and evaluation are documented in `Notebook/Soil pH Predictor Notebook.ipynb`.
 
 ---
 
