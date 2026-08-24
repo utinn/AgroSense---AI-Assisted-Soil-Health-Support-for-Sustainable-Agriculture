@@ -9,21 +9,8 @@ _load_error: str | None = None
 
 
 class ModelNotLoadedError(RuntimeError):
-    """Raised when a prediction is requested but the model failed to load."""
-
 
 def _limit_parallelism(model) -> None:
-    """Force n_jobs=1 on the in-memory estimator (never re-saved to disk).
-
-    The trained StackingClassifier and its nested RandomForestClassifier ship
-    with n_jobs=-1, which spawns a joblib process pool per prediction. That's
-    fine on a normal machine but is exactly the kind of thing that trips
-    "Resource temporarily unavailable" on thread/process-limited shared
-    hosting. Clamping to 1 only changes how the computation is scheduled, not
-    what it computes — verified bit-identical predict()/predict_proba()
-    output against the unmodified model before this was added. Only called
-    when settings.limit_parallelism is enabled (AGROSENSE_LIMIT_PARALLELISM),
-    so local/Docker FastAPI keeps the model's original configuration."""
     if hasattr(model, "n_jobs"):
         model.n_jobs = 1
     for estimator in getattr(model, "named_estimators_", {}).values():
@@ -33,8 +20,6 @@ def _limit_parallelism(model) -> None:
 
 
 def load_model() -> None:
-    """Load the .pkl once at startup. Never raises — failures are stored so
-    the API can report a clean 503 instead of crashing on boot."""
     global _model, _load_error
     try:
         _model = joblib.load(settings.model_path)
@@ -61,7 +46,6 @@ def get_model():
 
 
 def compute_percentages(Ca: float, Mg: float, K: float, Na: float) -> tuple[float, float, float]:
-    """Ported from compute_percentages() in Main.py."""
     total = Ca + Mg + K + Na
     if total > 0:
         return (Ca / total) * 100, (Mg / total) * 100, (K / total) * 100
