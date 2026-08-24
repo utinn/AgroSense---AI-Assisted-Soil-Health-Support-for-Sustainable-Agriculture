@@ -204,8 +204,13 @@ No secrets are required to run the project locally.
 ## 📚 References
 
 Food and Agriculture Organization of the United Nations. (2025, June 17). How healthy soils combat climate change and boost food security. FAO article
+
 Kamau, P., Ndirangu, I., Richardson, S., Pamme, N., & Gitaka, J. (2024). Gendered farmer perceptions towards soil nutrition and willingness to pay for a cafetière-style filter system for in-situ soil testing: Evidence from Central Kenya. Heliyon, 10(18), e37568. [https://doi.org/10.1016/j.heliyon.2024.e37568](https://doi.org/10.1016/j.heliyon.2024.e37568)
+
 Makaza, W., Khiari, L., & El Achaby, M. (2026). The meta-analysis study on the effects of the quality of lime materials on the soil physicochemical properties and crop yields in acid soils. Frontiers in Soil Science, 6, Article 1725559. [https://doi.org/10.3389/fsoil.2026.1725559](https://doi.org/10.3389/fsoil.2026.1725559)
+
 U.S. Department of Agriculture, Natural Resources Conservation Service. (2011). Soil quality indicators: Soil pH. USDA NRCS soil pH technical sheet
+
 University of Georgia Cooperative Extension. (n.d.). Soil testing. UGA Extension soil testing page
+
 Zhang, S., Zhu, Q., de Vries, W., Ros, G. H., Chen, X., Muneer, M. A., Zhang, F., & Wu, L. (2023). Effects of soil amendments on soil acidity and crop yields in acidic soils: A world-wide meta-analysis. Journal of Environmental Management, 345, Article 118531. [https://doi.org/10.1016/j.jenvman.2023.118531](https://doi.org/10.1016/j.jenvman.2023.118531)
