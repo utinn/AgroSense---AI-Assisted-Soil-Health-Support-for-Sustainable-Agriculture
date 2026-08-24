@@ -3,7 +3,7 @@
 .env.*
 !.env.example
 
-# Python
+# Backend
 .venv/
 venv/
 __pycache__/
@@ -13,10 +13,10 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 
-# Jupyter
+# Notebooks
 .ipynb_checkpoints/
 
-# Node / frontend
+# Frontend
 node_modules/
 dist/
 dist-ssr/
@@ -31,7 +31,7 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-# IDE / editor
+# IDE
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -50,5 +50,5 @@ Thumbs.db
 htmlcov/
 build/
 
-# Local AI tooling
+# Claude
 .claude/
