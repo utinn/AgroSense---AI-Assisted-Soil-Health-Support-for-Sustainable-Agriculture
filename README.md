@@ -1,5 +1,7 @@
 # AgroSense
 
+![React](https://img.shields.io/badge/React-19-20232A?logo=react&logoColor=61DAFB) ![Vite](https://img.shields.io/badge/Vite-646CFF?logo=vite&logoColor=white) ![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white) ![FastAPI](https://img.shields.io/badge/FastAPI-009688?logo=fastapi&logoColor=white) ![scikit-learn](https://img.shields.io/badge/scikit--learn-1.7.2-F7931E?logo=scikitlearn&logoColor=white) ![XGBoost](https://img.shields.io/badge/XGBoost-3.3.0-1A7F5C)
+
 AI-Assisted Soil Health Support for Sustainable Agriculture.
 
 AgroSense is a web application that classifies soil pH into five agronomic bands from a set of routine soil measurements — texture, nutrients, exchangeable base cations, and soil chemistry metrics — and pairs each prediction with an interpretation of what that pH band implies for nutrient availability and soil management. It works on a single sample or on a whole field uploaded as CSV.
@@ -7,7 +9,9 @@ AgroSense is a web application that classifies soil pH into five agronomic bands
 **Website:** https://agrosense.my.id  
 **API:** https://ai.agrosense.my.id
 
-## Background
+---
+
+## 🌱 Background
 
 Soil pH governs how much of a soil's nutrient content a crop can actually take up. Below roughly pH 4 aluminium and manganese turn root-toxic and phosphorus locks up with iron and aluminium oxides; above roughly pH 8 phosphorus fixes with calcium and micronutrients such as iron, zinc, and boron become progressively less soluble. Fertiliser applied to a soil sitting outside the workable band is largely wasted, and the corrective amendment — lime, gypsum, elemental sulphur — depends on which direction the soil has drifted and what is driving it.
 
@@ -15,7 +19,9 @@ In practice, growers and extension workers often already hold a soil analysis re
 
 It is intended as decision support that helps prioritise which fields need a full pH test and what amendment is likely to be needed — not as a substitute for laboratory soil testing.
 
-## Project Structure
+---
+
+## 🗂️ Project Structure
 
 ```
 AgroSense/
@@ -50,32 +56,62 @@ AgroSense/
 └── README.md
 ```
 
-## Key Features
+---
 
-- **Single-sample prediction** — twelve soil measurements grouped into texture (sand/silt/clay), nutrients (N, P), base chemicals (Ca, Mg, K, Na), and soil metrics (CEC, SAR, ESP), classified into one of five pH bands from strongly acidic to strongly alkaline.
-- **Prediction confidence** — the ensemble's probability for the predicted class, shown numerically and positioned on a five-band pH scale.
-- **Agronomic interpretation** — each class carries an explanation of what typically drives it, how it affects nutrient availability, and which amendment approach applies.
-- **Derived base-cation saturation** — % Ca, % Mg, % K, and % Na are computed from the entered cations and updated live; the first three are fed to the model as engineered features.
-- **Batch CSV prediction** — download a column template, drop in a CSV, and get a per-row class and confidence, a class-distribution summary, a preview table, and a full results CSV export.
-- **Two-sided input validation** — per-field agronomic ranges and a sand + silt + clay = 100% check in the browser and in the Pydantic schema; batch uploads are checked for missing columns, non-numeric values, and incomplete rows, with the offending row numbers reported.
-- **Measurement tooltips** — every input documents its unit, measurement method, valid range, and agronomic role.
-- **Health endpoint** — `GET /health` reports whether the model artifact loaded and surfaces the load error if it did not.
+## ✨ Key Features
 
-## Tech Stack
+| Feature | Description |
+| --- | --- |
+| **Single-sample prediction** | Twelve soil measurements — texture (sand/silt/clay), nutrients (N, P), base chemicals (Ca, Mg, K, Na), and soil metrics (CEC, SAR, ESP) — classified into one of five pH bands from strongly acidic to strongly alkaline. |
+| **Prediction confidence** | The ensemble's probability for the predicted class, shown numerically and positioned on a five-band pH scale. |
+| **Agronomic interpretation** | Each class carries an explanation of what typically drives it, how it affects nutrient availability, and which amendment approach applies. |
+| **Base-cation saturation** | % Ca, % Mg, % K, and % Na are computed from the entered cations and updated live; the first three are fed to the model as engineered features. |
+| **Batch CSV prediction** | Download a column template, drop in a CSV, and get a per-row class and confidence, a class-distribution summary, a preview table, and a full results CSV export. |
+| **Input validation** | Per-field agronomic ranges and a sand + silt + clay = 100% check in the browser and in the Pydantic schema; batch uploads are checked for missing columns, non-numeric values, and incomplete rows, with the offending row numbers reported. |
+| **Measurement guidance** | Inline tooltips document every input's unit, measurement method, valid range, and agronomic role. |
+| **Health endpoint** | `GET /health` reports whether the model artifact loaded and surfaces the load error if it did not. |
+
+---
+
+## 🛠️ Tech Stack
 
 ### Frontend
-React 19, Vite, Tailwind CSS v4 (`@tailwindcss/vite`), ESLint.
+
+- React 19
+- Vite
+- Tailwind CSS v4 (`@tailwindcss/vite`)
+- ESLint
 
 ### Backend
-Python, FastAPI, Uvicorn, Pydantic v2, python-multipart, python-dotenv. Flask and Flask-Cors are used only for the production WSGI adapter.
+
+- Python
+- FastAPI — primary ASGI application
+- Uvicorn — local development server
+- Pydantic v2 — request validation and response models
+- python-multipart — CSV upload handling
+- python-dotenv — environment configuration
+- Flask — production WSGI compatibility adapter only
+- Flask-Cors
 
 ### Machine Learning
-scikit-learn 1.7.2 (`StackingClassifier`, `RandomForestClassifier`, `MLPClassifier`, `LogisticRegression`, `StandardScaler`, `Pipeline`), XGBoost 3.3.0, pandas, NumPy, joblib. The notebook additionally uses imbalanced-learn, matplotlib, and seaborn for training and analysis.
+
+- scikit-learn 1.7.2 — `StackingClassifier`, `RandomForestClassifier`, `MLPClassifier`, `LogisticRegression`, `StandardScaler`, `Pipeline`
+- XGBoost 3.3.0
+- pandas
+- NumPy
+- joblib — model serialisation and loading
+- imbalanced-learn, matplotlib, seaborn — notebook only, for training and analysis
 
 ### Deployment
-Frontend served as a static Vite build at `agrosense.my.id`; API served on AnyMHost / cPanel behind Phusion Passenger at `ai.agrosense.my.id`.
 
-## System Architecture
+- AnyMHost / cPanel — production hosting
+- Phusion Passenger — production WSGI application server
+- Static Vite build served at `agrosense.my.id`
+- API served at `ai.agrosense.my.id`
+
+---
+
+## 🏗️ System Architecture
 
 The frontend is a static React build that calls a single REST API — `POST /predict`, `POST /predict/batch`, and `GET /health` — at the base URL given by `VITE_API_URL`. The backend exposes those routes through two interchangeable web layers that both delegate to the same ML core in `backend/app/model.py`, which loads the joblib artifact once at startup, assembles the feature frame, and returns labels with probabilities.
 
@@ -101,7 +137,9 @@ It takes fourteen features: the eleven measured inputs `P, SAND, CLAY, N, K, Ca,
 
 Data exploration, outlier handling, imputation, feature engineering and selection, the model experiments, and the full evaluation are documented in `Notebook/Soil pH Predictor Notebook.ipynb`.
 
-## Local Setup
+---
+
+## 💻 Local Setup
 
 **Clone**
 
@@ -140,7 +178,9 @@ Vite serves the app on `http://localhost:5173`.
 
 No secrets are required to run the project locally.
 
-## Limitations
+---
+
+## ⚠️ Limitations
 
 - **Decision support, not a soil test.** The model predicts a pH *band*, not a numeric pH value, and it depends on lab-measured inputs — CEC, SAR, ESP, and exchangeable cations all come from a soil analysis to begin with. It narrows down what a soil is likely doing; it does not replace laboratory testing.
 - **Training distribution is narrow and imbalanced.** The training file holds 3,022 rows skewed roughly 6:1 toward the majority class (1,290 moderately alkaline against 215 strongly acidic), with no recorded provenance for region or soil type. Rows beyond a z-score of 4 were filtered out during training, so genuinely extreme soils are outside the fitted range.
@@ -148,7 +188,9 @@ No secrets are required to run the project locally.
 - **Adjacent bands are the weak point.** In the final model, moderately alkaline has the lowest recall (0.72); most errors are confusions between neighbouring pH bands rather than gross misclassifications.
 - **Stateless service.** There is no authentication, rate limiting, or persistence — nothing submitted is stored, batch uploads are processed entirely in memory, and CSV size is bounded only by the request limits of the host.
 
-## Future Improvements
+---
+
+## 🚀 Future Improvements
 
 - Evaluate on a genuinely held-out, non-oversampled split, and move imbalance handling inside the cross-validation folds so reported metrics reflect unseen data.
 - Add a numeric pH regression output alongside the five-band classifier, so users get a value as well as a category.
