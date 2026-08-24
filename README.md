@@ -10,8 +10,6 @@ AgroSense is an AI web application that classifies soil pH into five agronomic b
 
 ## 🌱 Background
 
-## 🌱 Background
-
 Healthy soil is fundamental to agricultural productivity. Around 95% of the world's food is produced in soil, yet approximately one-third of global soils are already degraded. Among the many indicators of soil condition, pH plays a particularly important role because it directly influences nutrient availability, microbial activity, and the toxicity of elements such as aluminium and manganese.
 
 The impact is not merely theoretical. Around 40% of global arable land is estimated to be acidic, making soil acidity a widespread constraint on crop production. A global meta-analysis covering 832 observations from 142 studies found that amendments applied to acidic soils increased crop yields by approximately 36% on average, with the response becoming greater as initial soil pH declined. These findings highlight how identifying and managing unsuitable soil pH can directly influence agricultural productivity.
